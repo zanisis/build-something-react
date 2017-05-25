@@ -1,6 +1,9 @@
 //SEARCH
 export const SEARCH_LIST = 'SEARCH_LIST'
 
+//Fecth from DB
+export const SONG_LIST = 'SONG_LIST'
+
 //Add my track
 export const ADD_TRACK = 'ADD_TRACK'
 

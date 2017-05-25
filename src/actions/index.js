@@ -1,5 +1,5 @@
-import {SEARCH_LIST, ADD_TRACK} from '../constants/constants'
-
+import {SEARCH_LIST, SONG_LIST, ADD_TRACK, DELETE_TRACK} from '../constants/constants'
+import axios from 'axios'
 export const fetchMusic = searchWord => {
   return dispatch =>
     fetch(`https://api.spotify.com/v1/search?q=${searchWord}&type=track`)
@@ -10,9 +10,38 @@ export const fetchMusic = searchWord => {
     }))
 }
 
-export const addFavTrack = (data)=>{
-    return ({
-      type : ADD_TRACK,
-      payload : data
+export const fetchFavTrack = () =>{
+  return dispatch =>
+  axios.get('http://localhost:4000/Track')
+  .then(response => {
+    return dispatch({
+      type : SONG_LIST,
+      payload : response.data
     })
+  })
+  .catch(err => console.log(err))
+}
+
+export const addFavTrack = (data)=>{
+    return dispatch =>
+      axios.post('http://localhost:4000/Track', data)
+      .then(response => {
+        return dispatch({
+          type : ADD_TRACK,
+          payload : data
+        })
+      })
+      .catch(err => console.log(err))
+}
+
+export const delFavTrack = (id)=>{
+    return dispatch =>
+      axios.delete('http://localhost:4000/Track/'+id)
+      .then(res => {
+        return dispatch({
+          type : DELETE_TRACK,
+          payload : id
+        })
+      })
+      .catch(err => console.log(err))
 }

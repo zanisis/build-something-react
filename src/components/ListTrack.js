@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Image, Button } from 'semantic-ui-react'
+import { Card, Image, Button, Message } from 'semantic-ui-react'
 
 import {connect} from 'react-redux'
 
@@ -8,15 +8,34 @@ import {connect} from 'react-redux'
 import {addFavTrack} from '../actions'
 
 class ListTrack extends Component  {
+  state = { visible: true }
+
+  handleDismiss = () => {
+    this.setState({ visible: true })
+   }
 
   handleAddTrack(e){
+    this.setState({ visible: false })
     this.props.addFavTrack(e)
+    setTimeout(() => {
+      this.setState({ visible: true })
+    }, 2000)
   }
 
   render(){
     const data = this.props.listTrack
     return(
       <div>
+        <div style={{textAlign:'center'}}>
+          <Message
+            style={{width:'33rem'}}
+            positive={true}
+            color='blue'
+            compact
+            onDismiss={this.handleDismiss}
+            hidden={this.state.visible}
+            content='Success to Add Your Favorite Song '/>
+        </div>
         <Card.Group style={{margin:'0px 3rem'}} itemsPerRow={5} >
         {data.map(list => (
           <Card key={list.id} style={{width:'16rem', height:'27rem'}}>
