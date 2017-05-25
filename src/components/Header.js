@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import {Segment, Input, Menu, Icon} from '../semanticUI'
 import {connect} from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { Image } from 'semantic-ui-react'
 
 
 import logo from '../logo.svg';
@@ -10,23 +11,15 @@ import '../App.css';
 import {fetchMusic} from '../actions'
 
 class HeaderBar extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
+    state = {
       activeItem: 'home',
       searchWord: '',
       iconName: 'search',
       flag: 'false'
-    }
-  }
+      }
 
   componentWillMount(){
-    const activeBar = this.props.match.params
-    if(activeBar.hasOwnProperty('id')){
-      this.setState({ activeItem: activeBar.id })
-    } else {
-      this.setState({ activeItem: 'home' })
-    }
+    this.setState({activeItem : this.props.active})
   }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
@@ -40,22 +33,19 @@ class HeaderBar extends Component {
   render(){
     const { activeItem } = this.state
     return(
-      <Segment inverted>
-        <Menu inverted secondary>
-          <NavLink to="/">
-            <Menu.Item name='home' active={activeItem === 'home'} onClick={this.handleItemClick} color='olive'/>
-          </NavLink>
-          <NavLink to="/mytrack">
-            <Menu.Item name='myTrack' active={activeItem === 'mytrack'} onClick={this.handleItemClick} color='teal'/>
-          </NavLink>
-          <img src={logo} className="App-logo" alt="logo" position="center"/>
-
-          <Menu.Item position="right">
-            <Input icon={<Icon name={this.state.iconName} inverted circular link onClick={this.handleClickSearch}/>}
+      <div>
+        <Segment inverted>
+          <Menu inverted secondary>
+            <Menu.Item as={Link} to="/" name='home' active={activeItem === 'home'} onClick={this.handleItemClick} color='olive'/>
+            <Menu.Item as={Link} to="/mytrack" name='myTrack' active={activeItem === 'mytrack'} onClick={this.handleItemClick} color='teal'/>
+            <Image src={logo} className="App-logo"/>
+            <Menu.Item position="right">
+              <Input icon={<Icon name={this.state.iconName} inverted circular link onClick={this.handleClickSearch}/>}
               name="searchWord" placeholder='Search Fav Artist' onChange={this.handleInputSearchs}/>
-          </Menu.Item>
-        </Menu>
-      </Segment>
+            </Menu.Item>
+          </Menu>
+        </Segment>
+      </div>
     )
   }
 }

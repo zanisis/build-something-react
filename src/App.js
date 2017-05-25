@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {BrowserRouter, Route,} from 'react-router-dom'
 
 
-import Header from './components/Header'
+// import Header from './components/Header'
 import Main from './components/Main'
 import MyTrack from './components/MyTrack'
 
@@ -14,11 +14,6 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div>
-          {/* <Header /> */}
-          <Route exact path={"/"} component={Header}/>
-          <Route exact path={"/:id"} component={Header}/>
-
-          {/* <Main /> */}
           <Route exact path={"/"} component={Main}/>
           <Route path={"/mytrack"} component={MyTrack}/>
           {/* <div className="App-header">

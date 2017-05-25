@@ -1,4 +1,4 @@
-import {SONG_LIST, ADD_TRACK, DELETE_TRACK} from '../constants/constants'
+import {SONG_LIST, ADD_TRACK, DELETE_TRACK, EDIT_TRACK} from '../constants/constants'
 
 const initialize = []
 
@@ -19,11 +19,24 @@ const deleteMyTrack = (state, id)=>{
   return newData
 }
 
+const editMyTrack = (state, data)=>{
+  let newDesc = [...state].map(item=>{
+    if(data.id === item.id ){
+      item['name'] = data.desc
+      return item
+    } else {
+      return item
+    }
+  })
+  return newDesc
+}
+
 const trackReducer = (state=initialize, action)=>{
   switch (action.type) {
     case SONG_LIST: return songList(action.payload)
     case ADD_TRACK: return addMyTrack(state, action.payload)
     case DELETE_TRACK: return deleteMyTrack(state, action.payload)
+    case EDIT_TRACK: return editMyTrack(state, action.payload)
     default: return state
   }
 }

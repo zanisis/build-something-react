@@ -1,17 +1,58 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 
-import { Card, Image, Button, Popup, Message } from 'semantic-ui-react'
+import { Card, Image, Button, Popup, Message, Modal, TextArea, Form } from 'semantic-ui-react'
 
-import {delFavTrack} from '../actions'
+import {delFavTrack, editTrack} from '../actions'
 
 class MyListTrack extends Component {
+  state = {
+    data : {
+      id : '',
+      desc: '',
+    },
+    open: false,
+  }
 
   handleDeleteTrack(id){
     this.props.deleteTrack(id)
   }
 
+  handleEditTrack(id, judul){
+    let newData = {...this.state.data, id: id, desc: judul}
+    this.setState({data: newData, open: true})
+  }
+
+  handleChangeText(data){
+    let newData = {...this.state.data, desc: data}
+    this.setState({data : newData})
+  }
+
+  handleClose(){
+    let clearData ={
+      data : {
+        id : '',
+        desc: '',
+      },
+      open: false,
+    }
+    this.setState(clearData)
+  }
+
+  handleUpdate(){
+    this.props.editTrackDesc(this.state.data)
+    let clearData ={
+      data : {
+        id : '',
+        desc: '',
+      },
+      open: false,
+    }
+    this.setState(clearData)
+  }
+
   render(){
+    console.log(this.state)
     const data = this.props.myTrack
     return(
       <div>
@@ -21,7 +62,6 @@ class MyListTrack extends Component {
             positive={true}
             color='blue'
             compact
-            onDismiss={true}
             hidden={true}
             content='Success to Add Your Favorite Song '/>
         </div>
@@ -45,7 +85,7 @@ class MyListTrack extends Component {
            <Card.Content extra style={{padding:'3px 7px', textAlign:'right'}} >
              <Button.Group size='small' >
                <Popup
-                 trigger={<Button  color='blue' icon='write' onClick={()=>this.handleAddTrack(list)}/>}
+                 trigger={<Button  color='blue' icon='write' onClick={()=>this.handleEditTrack(list.id, list.name)}/>}
                  content='Edit Your Song'
                />
                <Popup
@@ -57,6 +97,23 @@ class MyListTrack extends Component {
           </Card>
         ))}
       </Card.Group>
+
+      <Modal dimmer='blurring' size='small' open={this.state.open}>
+          <Modal.Header>
+            Edit Your Description
+          </Modal.Header>
+          <Modal.Content>
+            <Form>
+             <TextArea value={this.state.data.desc} onChange={(e)=>this.handleChangeText(e.target.value)}/>
+           </Form>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button negative onClick={()=>this.handleClose()}>
+              No
+            </Button>
+            <Button positive icon='checkmark' labelPosition='right' content='Update' onClick={()=>this.handleUpdate()}/>
+          </Modal.Actions>
+        </Modal>
       </div>
     )
   }
@@ -67,7 +124,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch =>({
-  deleteTrack : (id) => dispatch(delFavTrack(id))
+  deleteTrack : (id) => dispatch(delFavTrack(id)),
+  editTrackDesc : (data) => dispatch(editTrack(data))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyListTrack)

@@ -1,4 +1,4 @@
-import {SEARCH_LIST, SONG_LIST, ADD_TRACK, DELETE_TRACK} from '../constants/constants'
+import {SEARCH_LIST, SONG_LIST, ADD_TRACK, DELETE_TRACK, EDIT_TRACK} from '../constants/constants'
 import axios from 'axios'
 export const fetchMusic = searchWord => {
   return dispatch =>
@@ -44,4 +44,18 @@ export const delFavTrack = (id)=>{
         })
       })
       .catch(err => console.log(err))
+}
+
+export const editTrack = (data)=>{
+  return dispatch => {
+    axios.patch('http://localhost:4000/Track/'+ data.id,{
+      name : data.desc
+    }).then(res => {
+      return dispatch({
+        type : EDIT_TRACK,
+        payload : data
+      })
+    })
+    .catch(err => console.log(err))
+  }
 }

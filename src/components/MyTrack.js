@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 
 import EmptyTrack from './EmptyTrack'
 import MyListTrack from './MyListTrack'
+import Header from './Header'
 
 import {fetchFavTrack} from '../actions'
 
@@ -17,6 +18,7 @@ class MyTrack extends Component{
     const data = this.props.myTrack
     return(
       <div>
+        <Header active={'mytrack'}/>
         {data.length === 0 ? <EmptyTrack /> : <MyListTrack  />}
       </div>
     )
