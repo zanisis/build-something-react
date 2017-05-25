@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux';
 
 import searchReducer from './SearchReducer'
-// import favoriteReducer from './favoriteReducer'
+import trackReducer from './TrackReducer'
 
 const rootReducer = combineReducers({
-  searchResult : searchReducer
+  searchResult : searchReducer,
+  trackResult : trackReducer
 })
 
 export default rootReducer;

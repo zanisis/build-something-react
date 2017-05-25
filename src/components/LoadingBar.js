@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Icon, Header, Segment } from 'semantic-ui-react'
+import { Icon, Header } from 'semantic-ui-react'
 
 
 class Loading extends Component {
@@ -16,7 +16,6 @@ class Loading extends Component {
           </Icon.Group>
         </Header>
     </div>
-
     )
   }
 }

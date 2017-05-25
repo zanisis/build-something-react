@@ -1,20 +1,12 @@
 import React, { Component } from 'react'
-import { Card, Image, Button } from 'semantic-ui-react'
-
 import {connect} from 'react-redux'
 
-// import picture from '../matthew.png'
+import { Card, Image, Button, Popup } from 'semantic-ui-react'
 
-import {addFavTrack} from '../actions'
 
-class ListTrack extends Component  {
-
-  handleAddTrack(e){
-    this.props.addFavTrack(e)
-  }
-
+class MyListTrack extends Component {
   render(){
-    const data = this.props.listTrack
+    const data = this.props.myTrack
     return(
       <div>
         <Card.Group style={{margin:'0px 3rem'}} itemsPerRow={5} >
@@ -34,10 +26,12 @@ class ListTrack extends Component  {
                Judul : {list.name}  {/*for albums*/}
              </Card.Description>
            </Card.Content>
-           <Card.Content extra style={{padding:'3px 7px'}}>
-             <Button.Group color='olive' size='small'>
-               <Button
-                 content='Add Favorite' icon='heart' labelPosition='right' onClick={()=>this.handleAddTrack(list)}/>
+           <Card.Content extra style={{padding:'3px 7px', textAlign:'right'}} >
+             <Button.Group size='small' >
+               <Popup
+                 trigger={<Button  color='red' icon='ban' onClick={()=>this.handleAddTrack(list)}/>}
+                 content='Delete Your Favorite Song'
+               />
              </Button.Group>
             </Card.Content>
           </Card>
@@ -49,10 +43,7 @@ class ListTrack extends Component  {
 }
 
 const mapStateToProps = state => ({
-  listTrack : state.searchResult
-})
-const mapDispatchToProps = dispatch=>({
-  addFavTrack : (data) => dispatch(addFavTrack(data))
+  myTrack : state.trackResult
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListTrack)
+export default connect(mapStateToProps, null)(MyListTrack)

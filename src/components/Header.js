@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {Segment, Input, Menu, Icon} from '../semanticUI'
 import {connect} from 'react-redux'
+import { NavLink } from 'react-router-dom'
+
 
 import logo from '../logo.svg';
 import '../App.css';
@@ -8,13 +10,22 @@ import '../App.css';
 import {fetchMusic} from '../actions'
 
 class HeaderBar extends Component {
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
     this.state = {
       activeItem: 'home',
       searchWord: '',
       iconName: 'search',
       flag: 'false'
+    }
+  }
+
+  componentWillMount(){
+    const activeBar = this.props.match.params
+    if(activeBar.hasOwnProperty('id')){
+      this.setState({ activeItem: activeBar.id })
+    } else {
+      this.setState({ activeItem: 'home' })
     }
   }
 
@@ -31,8 +42,12 @@ class HeaderBar extends Component {
     return(
       <Segment inverted>
         <Menu inverted secondary>
-          <Menu.Item name='home' active={activeItem === 'home'} onClick={this.handleItemClick} color='olive'/>
-          <Menu.Item name='myTrack' active={activeItem === 'myTrack'} onClick={this.handleItemClick} color='teal'/>
+          <NavLink to="/">
+            <Menu.Item name='home' active={activeItem === 'home'} onClick={this.handleItemClick} color='olive'/>
+          </NavLink>
+          <NavLink to="/mytrack">
+            <Menu.Item name='myTrack' active={activeItem === 'mytrack'} onClick={this.handleItemClick} color='teal'/>
+          </NavLink>
           <img src={logo} className="App-logo" alt="logo" position="center"/>
 
           <Menu.Item position="right">

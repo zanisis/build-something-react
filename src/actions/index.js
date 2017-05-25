@@ -1,4 +1,4 @@
-import {SEARCH_LIST} from '../constants/constants'
+import {SEARCH_LIST, ADD_TRACK} from '../constants/constants'
 
 export const fetchMusic = searchWord => {
   return dispatch =>
@@ -8,4 +8,11 @@ export const fetchMusic = searchWord => {
       type : SEARCH_LIST,
       payload : data.tracks.items
     }))
+}
+
+export const addFavTrack = (data)=>{
+    return ({
+      type : ADD_TRACK,
+      payload : data
+    })
 }
